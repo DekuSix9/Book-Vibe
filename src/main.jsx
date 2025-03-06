@@ -8,6 +8,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import Home from './Components/Home/Home';
 import Dashboard from './Components/Dashboard/Dashboard';
 import BookDetails from './Components/BookDetails/BookDetails';
+import ListedBooks from './Components/ListedBooks/ListedBooks';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
           const res = await fetch('/booksData.json'); 
           return res.json();
         }
+      },
+      {
+      path:'listedBooks',
+      element:<ListedBooks></ListedBooks>,
+      loader: async () => {
+        const res = await fetch('/booksData.json'); 
+        return res.json();
+      }
       },
       {
         path: '/dashboard',
