@@ -10,6 +10,8 @@ const ListedBooks = () => {
   const[readList,setReadList]=useState([])
   const[wishList,setwishList]=useState([])
 
+  const[sort,setSort]=useState('')
+
   const allBooks=useLoaderData();
 
   useEffect(()=>{
@@ -23,10 +25,32 @@ const ListedBooks = () => {
     const readWishList=allBooks.filter(book=>storedWishListInt.includes(book.bookId))
    setReadList(readBookList)
    setwishList(readWishList)
-  },[])
+  },[]);
+
+  const handleSortBy=(sortType)=>{
+    setSort(sortType);
+    if(sortType==='Number of pages'){
+      const sortedReadList=[...readList].sort((a,b)=>b.totalPages-a.totalPages)
+      setReadList(sortedReadList)
+      setwishList(sortedReadList)
+    }
+    if(sortType==='Ratings'){
+      const sortedReadList=[...readList].sort((a,b)=>b.rating-a.rating)
+      setReadList(sortedReadList)
+      setwishList(sortedReadList)
+    }
+
+  }
     return (
         <div>
            <h3 className=" text-3xl my-8">Listed Books</h3>
+           <div className="dropdown">
+  <div tabIndex={0} role="button" className="btn m-1">{sort?`Sort by:${sort}`:'Sort By'}</div>
+  <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+    <li onClick={()=>handleSortBy('Ratings')}><a>Ratings</a></li>
+    <li onClick={()=>handleSortBy('Number of pages')}><a>Number of pages</a></li>
+  </ul>
+</div>
            <Tabs>
     <TabList>
       <Tab>Read List</Tab>
